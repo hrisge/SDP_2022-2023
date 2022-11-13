@@ -150,7 +150,7 @@ template<typename T>
 T ResizableStack<T>::top() const
 {
 	if(empty())
-		throw std::runtime_error("You can not delete the top element of an empty stack!");
+		throw std::runtime_error("You can not get the top element of an empty stack!");
 	return stack[topIndex];
 }
 
