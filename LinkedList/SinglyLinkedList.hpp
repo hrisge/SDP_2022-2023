@@ -4,6 +4,7 @@
 template <class T>
 class SinglyLinkedList 
 {
+public:
 	struct LinkedListNode
 	{
 		T data;
@@ -13,6 +14,73 @@ class SinglyLinkedList
 		{
 			this->data = data;
 			next = nullptr;
+		}
+	};
+	
+	class SinglyLinkedListIterator
+	{
+		LinkedListNode* currEl;
+
+		SinglyLinkedListIterator(LinkedListNode* node)
+		{
+			currEl = node;
+		}
+
+		friend class SinglyLinkedList;
+	public:
+		SinglyLinkedListIterator begin()
+		{
+			return SinglyLinkedListIterator(head);
+		}
+		SinglyLinkedListIterator end()
+		{
+			return SinglyLinkedListIterator(nullptr);
+		}
+		
+		SinglyLinkedListIterator& operator++()
+		{
+			if (currEl == nullptr)
+				return *this;
+
+			currEl = currEl->next;
+			return *this;
+		}
+		SinglyLinkedListIterator& operator++(int)
+		{
+			SinglyLinkedListIterator temp = *this;
+			++(*this);
+			return temp;
+		}
+		SinglyLinkedListIterator& operator+=(size_t i)
+		{
+			while (i--)
+				++(*this);
+
+			return *this;
+		}
+		SinglyLinkedListIterator& operator+(int i)
+		{
+			SinglyLinkedListIterator res(*this);
+			return res += i;
+		}
+
+
+		T& operator*()
+		{
+			return currEl->data;
+		}
+		T* operator->()
+		{
+			return &currEl->data;
+		}
+
+		bool operator==(const SinglyLinkedListIterator& other) const
+		{
+			return currEl == other.currEl;
+		}
+		bool operator!=(const SinglyLinkedListIterator& other) const
+		{
+			return !(*this == other);
 		}
 	};
 
@@ -38,6 +106,8 @@ public:
 	void popBack();
 
 	void print() const;
+
+
 };
 
 template <class T>
