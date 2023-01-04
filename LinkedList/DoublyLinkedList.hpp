@@ -4,7 +4,7 @@
 template <class T>
 class DoublyLinkedList
 {
-public:
+private:
 	struct DoublyLinkedListNode
 	{
 		T data;
@@ -14,10 +14,66 @@ public:
 		DoublyLinkedListNode(const T& el, DoublyLinkedListNode* n = nullptr, DoublyLinkedListNode* p = nullptr) : data {el} , next {n}, prev {p} {}
 	};
 
-	using DLL = DoublyLinkedList;
-	using DLLN = DoublyLinkedListNode;
+	class Iterator
+	{
+	private:
+		DoublyLinkedListNode* iter;
+		Iterator(DoubyLinkedListNode* a = nullptr) : iter {a} {}
+		
+	public:
+		Iterator& operator++()
+		{
+			if (!iter)
+				return *this;
 
-private:
+			iter = iter->next;
+			return *this;
+		}
+		Iterator& operator++(int)
+		{
+			if (!iter)
+				return *this;
+
+			Iterator temp = *this;
+			iter = iter->next;
+			return temp;
+		}
+		Iterator& operator--()
+		{
+			if (!iter)
+				return *this;
+
+			iter = iter->prev;
+			return *this;
+		}
+		Iterator& operator--(int)
+		{
+			if (!this)
+				return* this;
+
+			Iterator temp = *this;
+			temp = temp->prev;
+			return temp;
+		}
+
+		const T& operator*()
+		{
+			if (!iter)
+				throw std::runtime_error("Iterator is empty!");
+
+			return iter->data;
+		}
+		bool operator==(const Iterator& other) const
+		{
+			return iter == other.iter;
+		}
+		bool operator!=(const Iterator& other) const
+		{
+			return !(*this == other);
+		}
+
+		friend class DoublyLinkedList<T>;
+	};
 
 	DoublyLinkedListNode* head;
 	DoublyLinkedListNode* tail;
